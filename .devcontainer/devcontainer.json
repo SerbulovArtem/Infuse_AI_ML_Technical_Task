@@ -1,0 +1,30 @@
+{
+  "name": "Infuse_test_task",
+  "build": { "dockerfile": "dockerfile",
+              "args": {
+                "IMAGE_VERSION": "24.3.0-0",
+                "ENV_NAME": "ml",
+                "PYTHON_VERSION": "3.10.14"
+              }              
+},
+
+  "runArgs": [ "--gpus", "all", "--ipc=host", "--ulimit", "memlock=-1", 
+              "--ulimit", "stack=67108864", 
+              "-v", "${localWorkspaceFolder}\\.devcontainer\\huggingface:/root/.cache/huggingface" ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python",
+                     "ms-python.vscode-pylance",
+                     "ms-toolsai.jupyter",
+                     "ms-toolsai.jupyter-keymap",
+                     "ms-azuretools.vscode-docker",
+                     "mechatroner.rainbow-csv",
+                     "github.copilot"],
+      "settings": {
+                      "python.defaultInterpreterPath": "/opt/conda/envs/ml/bin/python"
+                  }
+    }
+  },
+  "remoteUser": "root"
+}

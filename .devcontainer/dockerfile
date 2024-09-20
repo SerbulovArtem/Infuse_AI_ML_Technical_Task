@@ -1,0 +1,36 @@
+ARG IMAGE_VERSION=24.3.0-0
+ARG PYTHON_VERSION=3.10.14
+
+FROM condaforge/miniforge3:${IMAGE_VERSION}
+
+ENV ENV_NAME=ml
+
+## Type python version explicitly, not via arg or env variables (conda have some problems with that)
+RUN conda create -n ${ENV_NAME} python=3.10.14 numpy pandas -y
+
+# RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/lib/libcudart.so' >> ~/.bashrc 
+
+# RUN bash -c "source activate ${ENV_NAME} && \
+#     mamba install jupyter transformers scikit-multilearn ydata-profiling imbalanced-learn -y && \
+#     mamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y"
+
+# COPY environment.yml /tmp/environment.yml
+# RUN mamba env create -f /tmp/environment.yml
+
+RUN echo "source activate ${ENV_NAME}" >> ~/.bashrc
+RUN bash -c "source activate ${ENV_NAME} && \ 
+        mamba install jupyter openpyxl scikit-learn scikit-multilearn lightgbm -y && \
+        mamba install transformers accelerate pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y && \"
+
+# ENV PATH /opt/conda/envs/${ENV_NAME}/bin:$PATH
+
+# CMD [ "jupyter", "notebook", "--allow-root", "--ip=\"0.0.0.0\"" ]
+
+# mamba install accelerate pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+# mamba install cudatoolkit==11.8.0
+
+# For local translation
+# mamba install sacremoses nlpaug langdetect 
+
+# For API translation  
+# mamba install translators
